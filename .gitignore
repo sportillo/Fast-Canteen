@@ -6,7 +6,7 @@ sensors/*.a
 sensors/*.map
 sensors/*.sky
 sensors/*.z1
-
+*.*~
 border-router/*.d
 border-router/obj_z1
 border-router/obj_sky

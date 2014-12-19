@@ -3,7 +3,7 @@ sensors/*.a
 sensors/*.map
 sensors/*.sky
 sensors/*.z1
-*.*~
+*~
 obj_z1/
 obj_sky/
 border-router/*.d

@@ -1,7 +1,7 @@
 sensors/*.d
-sensors/obj_z1
-sensors/coap
-sensors/obj_sky
+sensors/obj_z1/
+sensors/coap/
+sensors/obj_sky/
 sensors/*.a
 sensors/*.map
 sensors/*.sky

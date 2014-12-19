@@ -1,17 +1,17 @@
-./sensors/*.d
-./sensors/obj_z1
-./sensors/coap
-./sensors/obj_sky
-./sensors/*.a
-./sensors/*.map
-./sensors/*.sky
-./sensors/*.z1
+sensors/*.d
+sensors/obj_z1
+sensors/coap
+sensors/obj_sky
+sensors/*.a
+sensors/*.map
+sensors/*.sky
+sensors/*.z1
 
-./border-router/*.d
-./border-router/obj_z1
-./border-router/obj_sky
-./border-router/*.a
-./border-router/*.map
-./border-router/*.sky
-./border-router/*.z1
+border-router/*.d
+border-router/obj_z1
+border-router/obj_sky
+border-router/*.a
+border-router/*.map
+border-router/*.sky
+border-router/*.z1
 

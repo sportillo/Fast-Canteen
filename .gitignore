@@ -1,14 +1,10 @@
-sensors/*.d
-sensors/*.a
-sensors/*.map
-sensors/*.sky
-sensors/*.z1
+*.d
+*.a
+*.map
+*.sky
+*.z1
+
 *~
 obj_z1/
 obj_sky/
-border-router/*.d
-border-router/*.a
-border-router/*.map
-border-router/*.sky
-border-router/*.z1
 

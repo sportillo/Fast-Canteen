@@ -1,5 +1,5 @@
-all: projector shutter light_sensor plugs temperature
-CONTIKI=/home/user/contiki
+all: projector shutter light_sensor plugs temperature queue seat
+CONTIKI=/home/user/contiki-2.7
 
 UIP_CONF_IPV6=1
 CFLAGS+=-DUIP_CONF_IPV6=1

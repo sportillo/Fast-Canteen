@@ -66,6 +66,26 @@
       <moteinterface>se.sics.cooja.mspmote.interfaces.MspDebugOutput</moteinterface>
       <moteinterface>se.sics.cooja.mspmote.interfaces.SkyTemperature</moteinterface>
     </motetype>
+    <motetype>
+      se.sics.cooja.mspmote.Z1MoteType
+      <identifier>z11</identifier>
+      <description>Temperature</description>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/temperature.c</source>
+      <commands EXPORT="discard">make temperature.z1 TARGET=z1</commands>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/temperature.z1</firmware>
+      <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
+      <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
+      <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
+      <moteinterface>se.sics.cooja.interfaces.Mote2MoteRelations</moteinterface>
+      <moteinterface>se.sics.cooja.interfaces.MoteAttributes</moteinterface>
+      <moteinterface>se.sics.cooja.mspmote.interfaces.MspClock</moteinterface>
+      <moteinterface>se.sics.cooja.mspmote.interfaces.MspMoteID</moteinterface>
+      <moteinterface>se.sics.cooja.mspmote.interfaces.MspButton</moteinterface>
+      <moteinterface>se.sics.cooja.mspmote.interfaces.Msp802154Radio</moteinterface>
+      <moteinterface>se.sics.cooja.mspmote.interfaces.MspDefaultSerial</moteinterface>
+      <moteinterface>se.sics.cooja.mspmote.interfaces.MspLED</moteinterface>
+      <moteinterface>se.sics.cooja.mspmote.interfaces.MspDebugOutput</moteinterface>
+    </motetype>
     <mote>
       <breakpoints />
       <interface_config>
@@ -206,11 +226,25 @@
       </interface_config>
       <motetype_identifier>sky2</motetype_identifier>
     </mote>
+    <mote>
+      <breakpoints />
+      <interface_config>
+        se.sics.cooja.interfaces.Position
+        <x>55.65074770631396</x>
+        <y>-28.863460311702287</y>
+        <z>0.0</z>
+      </interface_config>
+      <interface_config>
+        se.sics.cooja.mspmote.interfaces.MspMoteID
+        <id>11</id>
+      </interface_config>
+      <motetype_identifier>z11</motetype_identifier>
+    </mote>
   </simulation>
   <plugin>
     se.sics.cooja.plugins.SimControl
     <width>330</width>
-    <z>0</z>
+    <z>1</z>
     <height>141</height>
     <location_x>4</location_x>
     <location_y>1</location_y>
@@ -222,13 +256,13 @@
       <skin>se.sics.cooja.plugins.skins.IDVisualizerSkin</skin>
       <skin>se.sics.cooja.plugins.skins.UDGMVisualizerSkin</skin>
       <skin>se.sics.cooja.plugins.skins.AddressVisualizerSkin</skin>
-      <viewport>4.154682645755118 0.0 0.0 4.154682645755118 370.51057847482946 159.11206604056787</viewport>
+      <viewport>4.704846101129084 0.0 0.0 4.704846101129084 350.1717966290305 159.79813871260654</viewport>
     </plugin_config>
     <width>1027</width>
-    <z>1</z>
+    <z>2</z>
     <height>550</height>
-    <location_x>403</location_x>
-    <location_y>244</location_y>
+    <location_x>77</location_x>
+    <location_y>139</location_y>
   </plugin>
   <plugin>
     se.sics.cooja.plugins.LogListener
@@ -238,10 +272,10 @@
       <coloring />
     </plugin_config>
     <width>1166</width>
-    <z>3</z>
+    <z>0</z>
     <height>240</height>
-    <location_x>757</location_x>
-    <location_y>1</location_y>
+    <location_x>732</location_x>
+    <location_y>-3</location_y>
   </plugin>
   <plugin>
     se.sics.cooja.plugins.TimeLine
@@ -256,6 +290,7 @@
       <mote>7</mote>
       <mote>8</mote>
       <mote>9</mote>
+      <mote>10</mote>
       <showRadioRXTX />
       <showRadioHW />
       <showLEDs />
@@ -271,7 +306,7 @@
     SerialSocketServer
     <mote_arg>0</mote_arg>
     <width>422</width>
-    <z>2</z>
+    <z>3</z>
     <height>158</height>
     <location_x>336</location_x>
     <location_y>-4</location_y>

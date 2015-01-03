@@ -1,7 +1,7 @@
 CONTIKI_PROJECT=border-router
 all: $(CONTIKI_PROJECT) 
 
-CONTIKI=../..
+CONTIKI=/home/user/contiki-2.7
 
 WITH_UIP6=1
 UIP_CONF_IPV6=1

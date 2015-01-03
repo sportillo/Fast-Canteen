@@ -3,7 +3,7 @@
 *.map
 *.sky
 *.z1
-
+*.o
 *~
 obj_z1/
 obj_sky/

@@ -1,20 +1,100 @@
+body {
+	font-family: 'Helvetica Neue', sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	overflow: hidden;
+}
+
+#canteens {
+	overflow: hidden;
+}
+
 .canteen {
-	width: 320px;
-	height: 568px;
+	height: 90vh;
+}
+
+.canteen .name {
+	height: 64px;
+	line-height: 1em;
+	background: #444;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 64px;
+	margin: 0;
+	padding-bottom: 10px;
+	margin-bottom: 25px;
+	color: #fff;
+	text-transform: uppercase;
+	border-bottom: 1px solid #eee;
+}
+
+.canteen-seats {
+	margin: 15px;
+	border: 1px dashed #ddd;
+	padding: 15px;
 }
 
 .seat {
-	width: 25px;
-	height: 25px;
-	background: #fff;
-	border: 1px solid #111;
+	width: 13px;
+	height: 13px;
 	border-radius: 50%;
 	margin: 5px;
 	display: inline-block;
 	background: red;
 }
 
+@-webkit-keyframes bounceIn {
+	0% { -webkit-transform: scale(0); }
+	100% { -webkit-transform: scale(1.2); }
+}
+
 .seat[data-value="1"] {
 	background: green;
+	-webkit-animation: bounceIn .4s;
+}
 
+.canteen-circles {
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.canteen-circles td {
+	text-align: center;
+	font-size: 12px;
+	width: 25%;
+	line-height: 12px;
+}
+
+.canteen-circle {
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	line-height: 62px;
+	text-align: center;
+	color: #fff;
+	font-size: 25px;
+	font-weight: bold;
+	display: block;
+	margin: 0 auto 8px auto;
+}
+
+[data-available_seats] {
+	background: #750385;
+}
+
+[data-occupied_seats] {
+	background: #258302;
+}
+
+[data-temperature] {
+	background: #683405;
+}
+
+[data-queue] {
+	background: #485050;
+}
+
+.progress {
+	margin: 0 15px;
 }

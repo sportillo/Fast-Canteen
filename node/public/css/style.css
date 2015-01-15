@@ -62,7 +62,7 @@ body {
 .canteen-circles td {
 	text-align: center;
 	font-size: 12px;
-	width: 25%;
+	width: 20%;
 	line-height: 12px;
 }
 
@@ -95,6 +95,25 @@ body {
 	background: #485050;
 }
 
+[data-cammeo-distance] {
+	background: #712343;
+}
+
+[data-martiri-distance] {
+	background: #712343;
+}
+
+[data-betti-distance] {
+	background: #712343;
+}
+
+[data-rosellini-distance] {
+	background: #712343;
+}
+
+[data-arrivals] {
+	background-color: #A34324;
+}
 .progress {
 	margin: 0 15px;
 }

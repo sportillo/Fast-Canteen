@@ -1,11 +1,36 @@
 var Seat = require('./seat');
 var _ = require('underscore');
 
+var locations = {
+	cammeo : {
+		latitude : 43.723917,
+		longitude : 10.391706,
+		address: "Via Cammeo Carlo Salomone"
+	},
+	martiri : {
+		latitude : 43.7205854,
+		longitude : 10.4002532,
+		address: "Via Martiri"
+	},
+	betti : {
+		latitute: 43.7150921,
+		longitude: 10.4162794,
+		address: "Via Betti"
+	},
+	rosellini : {
+		latitude: 43.708745,
+		longitude: 10.4163141,
+		address: "Via Rosellini"
+	}
+};
+
 function Canteen(name) {
 	this.name = name;
 	this.seats = {};
 	this.queue = {};
 	this.temperature = null;
+	this.location = locations[name];
+	this.arrivals = {};
 }
 
 Canteen.prototype.getSeatsCount = function() {
@@ -56,6 +81,18 @@ Canteen.prototype.getQueue = function() {
 	}, 0);
 };
 
+Canteen.prototype.getLocation = function() {
+	return this.location;
+};
+
+Canteen.prototype.updateETA = function(id, eta) {
+	this.arrivals[id] = eta;
+};
+
+Canteen.prototype.removeETA = function(id) {
+	delete(this.arrivals[id]);
+};
+
 Canteen.prototype.toJSON = function() {
 	return {
 		name: this.name,
@@ -64,7 +101,9 @@ Canteen.prototype.toJSON = function() {
 		occupied_seats: this.getOccupiedSeats(),
 		temperature: this.getTemperature(),
 		percentage_seats: this.getPercentageSeats(),
-		queue: this.getQueue()
+		queue: this.getQueue(),
+		location: this.location,
+		arrivals: this.arrivals
 	};
 };
 

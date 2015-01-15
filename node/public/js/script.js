@@ -152,7 +152,7 @@ $(document).ready(function(){
 			address: "Via Rosellini"
 		}
 	};
-	Canteens.add({name: 'cammeo', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['cammeo'], arrivals: {}});
+	//Canteens.add({name: 'cammeo', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['cammeo'], arrivals: {}});
 	//Canteens.add({name: 'martiri', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['martiri'], arrivals: {}});
 	//Canteens.add({name: 'betti', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['betti'], arrivals: {}});
 	//Canteens.add({name: 'rosellini', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['rosellini'],arrivals: {}});

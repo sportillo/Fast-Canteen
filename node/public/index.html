@@ -15,7 +15,7 @@
 <body>
 	<section id="canteens"></section>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -36,7 +36,6 @@
 			<!--
 			<td>
 				<div class="canteen-circle" data-temperature><%= 0 %></div>
-				Temperature
 			</td>
 			-->
 			<td>
@@ -44,7 +43,7 @@
 				Queue
 			</td>
 			<td>
-				<div class="canteen-circle" data-<%= name %>-distance></div>
+				<div class="canteen-circle" data-user-ETA></div>
 				mins
 			</td>
 			<td>
@@ -60,7 +59,10 @@
 				<div class="seat" data-id="<%= seat.id %>" data-value="<%= seat.value %>"></div>
 			<% }); %>
 		</div>
-		<button class="btn btn-large" type="button" onclick="goHere('<%= name %>')">Go Here</button>
+		<table class="canteen-circles"><tr>
+			<td><button class="btn btn-large btn-gohere" type="button" data-go-here="<%= name %>">GO!</button></td>
+			<td><div class="canteen-tte" data-timetoeat>0</div></td>
+		</tr></table>
 	</script>
 
 	<script src="/socket.io/socket.io.js"></script>

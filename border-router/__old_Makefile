@@ -46,14 +46,5 @@ $(CONTIKI)/tools/tunslip6:	$(CONTIKI)/tools/tunslip6.c
 connect-router:	$(CONTIKI)/tools/tunslip6
 	sudo $(CONTIKI)/tools/tunslip6 $(PREFIX)
 
-connect-router-cooja-cammeo:	$(CONTIKI)/tools/tunslip6
-	sudo $(CONTIKI)/tools/tunslip6 -t tun0 -a 127.0.0.1 aaaa::1/64 -p 60001
-
-connect-router-cooja-martiri:	$(CONTIKI)/tools/tunslip6
-	sudo $(CONTIKI)/tools/tunslip6 -t tun1 -a 127.0.0.1 bbbb::1/64 -p 60002
-
-connect-router-cooja-betti:	$(CONTIKI)/tools/tunslip6
-	sudo $(CONTIKI)/tools/tunslip6 -t tun2 -a 127.0.0.1 cccc::1/64 -p 60003
-
-connect-router-cooja-rosellini:	$(CONTIKI)/tools/tunslip6
-	sudo $(CONTIKI)/tools/tunslip6 -t tun3 -a 127.0.0.1 dddd::1/64 -p 60004
+connect-router-cooja:	$(CONTIKI)/tools/tunslip6
+	sudo $(CONTIKI)/tools/tunslip6 -a 127.0.0.1 $(PREFIX)

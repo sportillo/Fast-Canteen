@@ -1,0 +1,19 @@
+-	Sensori: posti, coda (e basta?)
+-	Attuatori?
+
+-	Proxy: interroga il BR e si registra come observer su tutte le risorse dei sensori. Quando riceve un aggiornamento lo invia sul socket verso il server
+-	Server: riceve gli aggiornamenti ed aggiorna la pagina web con posti occupati, disponibili e coda.
+-	Browser: potrebbe essere pensata come pagina amministrativa, in cui ho anche la temperatura, i posti con i cerchi, e tutte le altre info
+-	Smartphone: appena aperta l'app, prende le coordinate e calcola la distanza dalle varie mense. Per ogni mensa c'è un bottone che da la possibilit all'utente di indicare la volontà ad andare in quella mensa. A questo punto l'app invierà (anche in background) gli aggiornamenti dell'ETA a quella mensa, al server.
+	/* TODO */
+	Il server riceve questi aggiornamenti dell'ETA e popola una struttura per ogni mensa con l'ID degli utenti e il loro ETA.
+
+Sulla pagina, oltre ai posti disponibili, occupati e alla coda, c'è anche un altro numero che riguarda il numero di persone che stanno arrivando (prima di me!).
+L'algoritmo (1) dovrebbe stimare in base a questi dati (ma secondo me solo su coda e su arrivanti) il tempo di attesa IN MENSA.
+Questo tempo si va a sommare al tempo di percorrenza, e ottengo il tempo necessario a "sedermi e mangiare".
+
+L'algoritmo (2, opzionale, se c'è tempo) dovrebbe stimare o la necessità di aprire un'altra corsia (bad idea) o la quantità di cibo da produrre in cucina (good).
+Secondo me si fa una cosa molto empirica e si dice 125g di pasta a testa, N bistecche.
+
+Sullo smartphone, magari non facciamo vedere i pallini con i posti, ma appunto i tempi.
+Se scegliamo di fare (2) si dovrebbe fare anche un'altra pagina "Cucina" con questi indicatori (in teoria magari considerando gli utenti come registrati si potrebbe sapere anche se sono vegetariani o meno e organizzarsi).

@@ -13,7 +13,7 @@ var locations = {
 		address: "Via Martiri"
 	},
 	betti : {
-		latitute: 43.7150921,
+		latitude: 43.7150921,
 		longitude: 10.4162794,
 		address: "Via Betti"
 	},
@@ -30,7 +30,7 @@ function Canteen(name) {
 	this.queue = {};
 	this.temperature = null;
 	this.location = locations[name];
-	this.arrivals = {};
+	this.ETA = {};
 }
 
 Canteen.prototype.getSeatsCount = function() {
@@ -61,8 +61,8 @@ Canteen.prototype.getTemperature = function() {
 	return this.temperature;
 };
 
-Canteen.prototype.updateSeatAt = function(id, data) {
-	this.seats[id] = new Seat(id, data);
+Canteen.prototype.updateSeatAt = function(id, value) {
+	this.seats[id] = new Seat(id, value);
 };
 
 Canteen.prototype.getSeats = function() {
@@ -86,11 +86,10 @@ Canteen.prototype.getLocation = function() {
 };
 
 Canteen.prototype.updateETA = function(id, eta) {
-	this.arrivals[id] = eta;
-};
-
-Canteen.prototype.removeETA = function(id) {
-	delete(this.arrivals[id]);
+	if(eta > 30)
+		this.ETA[id] = eta;
+	else
+		delete(this.ETA[id]);
 };
 
 Canteen.prototype.toJSON = function() {
@@ -103,7 +102,7 @@ Canteen.prototype.toJSON = function() {
 		percentage_seats: this.getPercentageSeats(),
 		queue: this.getQueue(),
 		location: this.location,
-		arrivals: this.arrivals
+		ETA: this.ETA
 	};
 };
 

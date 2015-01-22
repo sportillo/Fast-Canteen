@@ -37,7 +37,7 @@ void GetStatus_periodic_handler(resource_t *r)
 	snprintf(
 		content, 
 		sizeof(content), 
-		"{\"bn\":\"cammeo\",\"e\":[{\"n\":\"seat\",\"id\":\"%lu\",\"bv\":\"%u\"}]}",
+		"{\"bn\":\"rosellini\",\"e\":[{\"n\":\"seat\",\"id\":\"%lu\",\"bv\":\"%u\"}]}",
 		id, 
 		status[id])
   );

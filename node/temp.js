@@ -12,6 +12,43 @@ setInterval(function(){
 },200);
 */
 
+/*var url =  "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
+			43.72832382851462 + "," +
+			10.388503021991607 + "&destinations=" + 
+			43.723917 + "," +
+			10.391706  + "&mode=walinkg&language=en-EN&key=AIzaSyBNiXguGFrJYf7fvYCKn_JzeSvklwXxLrQ";
+
+https.get(url, function(res) {
+	res.on("data", function(chunk) {
+		json = JSON.parse(chunk);
+		value = json['rows'][0]['elements'][0]['duration']['value'];
+		canteens[ data.canteen ].updateETA(data.id, value);
+	});
+}).on('error', function(e) {
+	console.log("Got error: " + e.message);
+});*/
+
+/*
+function calculateDistances(canteen, lon, lat) {
+	var url =  "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
+					data.lon + "," +
+					data.lat + "&destinations=" + 
+					canteens[ canteen].location.lon + "," +
+					canteens[ canteen].location.lat  + "&mode=walinkg&language=en-EN&key=" + API_KEY;
+
+	https.get(url, function(res) {
+		res.on("data", function(chunk) {
+			var json = JSON.parse(chunk);
+			var value = json['rows'][0]['elements'][0]['duration']['value'];
+		});
+	}).on('error', function(e) {
+		console.log("Got error: " + e.message);
+	});
+
+	return value;
+}
+*/
+
 var App = {
 
 	canteens: null,

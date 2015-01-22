@@ -1,10 +1,10 @@
-function Seat(id, data) {
+function Seat(id, value) {
 	this.id = id;
-	this.data = data;
+	this.value = value;
 }
 
 Seat.prototype.getValue = function() {
-	return this.data.value;
+	return this.value;
 };
 
 Seat.prototype.toJSON = function() {

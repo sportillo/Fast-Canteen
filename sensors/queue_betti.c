@@ -64,7 +64,7 @@ void GetStatus_periodic_handler(resource_t *r)
     snprintf(
       content, 
       sizeof(content), 
-      "{\"bn\":\"cammeo\",\"e\":[{\"n\":\"queue\",\"id\":\"%u\",\"v\":\"%u\"}]}", 
+      "{\"bn\":\"betti\",\"e\":[{\"n\":\"queue\",\"id\":\"%u\",\"v\":\"%u\"}]}", 
       id, queueLength
     )
   );
@@ -84,7 +84,7 @@ void GetStatus_handler(void *request, void *response, uint8_t *buffer, uint16_t 
   
   if(method & METHOD_GET)
   {
-    int length = sprintf(buff, "{\"bn\":\"cammeo\",\"e\":[{\"n\":\"queue\",\"id\":\"%u\",\"bv\":\"%u\"}]}", id, queueLength);
+    int length = sprintf(buff, "{\"bn\":\"martiri\",\"e\":[{\"n\":\"queue\",\"id\":\"%u\",\"v\":\"%u\"}]}", id, queueLength);
     memcpy(buffer, buff, length);
 
     REST.set_header_content_type(response, REST.type.APPLICATION_JSON);

@@ -9,10 +9,7 @@
 
 2.	Start simulation
 
-3.	Terminale -> cd [progetto]/border-router -> make connect-router-cooja-cammeo
-						    make connect-router-cooja-martiri
-						    make connect-router-cooja-betti
-						    make connect-router-cooja-rosellini
+3.	Terminale -> cd [progetto]/border-router -> make connect-router-cooja
 
 4. Avviare Eclipse e far partire l'HTTPserver (si chiama cosi ma è il proxy)
 

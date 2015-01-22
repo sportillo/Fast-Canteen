@@ -1,14 +1,46 @@
 var socket = io();
-var ID = Math.floor(Math.random() * 200) + 1;
+/* Google Maps API KEY */
 var API_KEY = "AIzaSyBNiXguGFrJYf7fvYCKn_JzeSvklwXxLrQ";
-
+/* Structure containing user ETA to the canteens */
 var ETA = {};
+var canteenTarget = null;
+
+var ID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    return v.toString(16);
+});
 /*
 Canteen
 */
 
 var Canteen = Backbone.Model.extend({
 	idAttribute: 'name',
+	/* Return the HTML View of the relative canteen */
+	getMasterView: function() {
+		return $('.canteen[data-id=' + this.id + ']');
+	},
+	/* Button function */
+	goHere: function() {
+		if(window.webkit){
+			/* I'm on a iOS WebView */
+			try {
+				/* Trigger the notification event on the application
+				 	with a JSON containing target canteen information */
+				window.webkit.messageHandlers.notification.postMessage({
+					canteen: this.id,
+					canteen_lat: this.get('location').latitude,
+					canteen_lon: this.get('location').longitude
+				});
+
+			} catch(err) {}
+		} else {
+			/* I'm on Android, probably */
+			if(canteenTarget !== null)
+				canteenTarget = this.id;
+			else if(canteenTarget == this.id)
+				canteenTarget = null;
+		}
+	}
 });
 
 var CanteenView = Backbone.View.extend({
@@ -16,9 +48,13 @@ var CanteenView = Backbone.View.extend({
 	className: 'canteen item',
 	template: _.template( $('#_tpl_canteen').html() ),
 	initialize: function() {
+		/* When the model changes, call change() function */
 		this.listenTo(this.model, 'change', this.change);
 	},
 	render: function() {
+		/* Find the relative HTML View */
+		this.$el.attr('data-id', this.model.id);
+		/* Populates the View with the model information */
 		this.$el.html(this.template(this.model.toJSON()));
 		return this;
 	},
@@ -56,6 +92,11 @@ var AppView = Backbone.View.extend({
 		this.$el.owlCarousel({
 			singleItem: true
 		});
+		this.$el.on('click', '[data-go-here]', function() {
+			Canteens.get( $(this).data('go-here') ).goHere();
+			App.$el.find('[data-go-here].active').removeClass('active');
+			$(this).addClass('active');
+		});
 	},
 	add: function(canteen) {
 		var view = new CanteenView({ model: canteen });
@@ -70,27 +111,47 @@ Socket listeners
 socket.on('update.canteen', function(canteen_json) {
 	if (Canteens.get(canteen_json.name)) {
 		Canteens.get(canteen_json.name).set(canteen_json);
+
+		Canteens.get(canteen_json.name).getMasterView().find('[data-arrivals]').text(calculateArrivals(canteen_json.name));
+		Canteens.get(canteen_json.name).getMasterView().find('[data-timetoeat]').text(calculateTTE(canteen_json.name));
 	} else {
 		Canteens.add(new Canteen(canteen_json));
 	}
 });
-
-socket.emit('start.update.position', JSON.stringify({
-		ID: ID
-	})
-);
 
 var App = new AppView();
 var geocoder = new google.maps.Geocoder();
 
 $(document).bind('touchmove', false);
 
-function calculateDistances(lat, lon) {
+/* Compute the number of person going to the canteen, with an ETA less then the user one */
+function calculateArrivals(canteen) {
+	var res = 0;
+	var myETA = ETA[canteen];
+	var etas = Canteens.get(canteen).get('ETA');
+	for(var e in etas) {
+		if(etas[e] < myETA)
+			res++;
+	}
+	return res;
+}
+
+function calculateTTE(canteen) {
+	var arrivals = ~~Canteens.get(canteen).getMasterView().find('[data-arrivals]').text();
+	var queue = ~~Canteens.get(canteen).getMasterView().find('[data-queue]').text();
+	var eta = ETA[canteen];
+
+	return Math.round(((arrivals + queue)*15 + eta)/60) + "\nmins";
+}
+
+
+function calculateETA(lat, lon) {
 	var service = new google.maps.DistanceMatrixService();
 	var origin = new google.maps.LatLng(lat, lon);
 
 	Canteens.each(function(canteen) {
-		var destination = new google.maps.LatLng(canteen.get('location').latitude, canteen.get('location').longitude);
+		var destination = new google.maps.LatLng(canteen.get('location').latitude,
+																canteen.get('location').longitude);
 
 		service.getDistanceMatrix(
 		{
@@ -105,66 +166,34 @@ function calculateDistances(lat, lon) {
 					console.log('Error was: ' + status);
 				} else {
 					var cnt_name = canteen.get('name');
-					console.log(cnt_name);
-					console.log(response.rows[0].elements[0].duration.value);
-					ETA[cnt_name] = Math.round(response.rows[0].elements[0].duration.value / 60);
-					$.find('[data-'+ cnt_name + '-distance]')[0].textContent = ETA[cnt_name];
+					ETA[canteen.id] = response.rows[0].elements[0].duration.value;
+					canteen.set('user-ETA', Math.round(ETA[canteen.id]/60));
+					canteen.set('arrivals', calculateArrivals(cnt_name));
+					if(canteenTarget !== null && canteenTarget == canteen.id ) {
+						socket.emit("update.ETA", {id: ID, canteen: canteenTarget, ETA: ETA[canteenTarget]});
+					}
+
 				}
 		});
 	});
 }
 
-function goHere(canteen) {
-	var lat = Canteens.get(canteen).get('location').latitude;
-	var lon = Canteens.get(canteen).get('location').latitude;
-	try{
-
-		window.webkit.messageHandlers.notification.postMessage({ 'id' : ID, 'canteen_lat': canteen, 'canteen_lat': lat, 'canteen_lon': lon,});
-
-	} catch(err) {
-
-	}
-
-}
-
 $(document).ready(function(){
-
-	/* START For testing */
-	var locations = {
-		cammeo : {
-			latitude : 43.723917,
-			longitude : 10.391706,
-			address: "Via Cammeo Carlo Salomone"
-		},
-		martiri : {
-			latitude : 43.7205854,
-			longitude : 10.4002532,
-			address: "Via Martiri"
-		},
-		betti : {
-			latitude: 43.7152325,
-			longitude: 10.4121704,
-			address: "Via Betti"
-		},
-		rosellini : {
-			latitude: 43.708745,
-			longitude: 10.4163141,
-			address: "Via Rosellini"
-		}
-	};
-	//Canteens.add({name: 'cammeo', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['cammeo'], arrivals: {}});
-	//Canteens.add({name: 'martiri', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['martiri'], arrivals: {}});
-	//Canteens.add({name: 'betti', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['betti'], arrivals: {}});
-	//Canteens.add({name: 'rosellini', available_seats : 1, occupied_seats: 2, queue: 0, percentage_seats: 10, seats: [], location:locations['rosellini'],arrivals: {}});
-	/* END For Testing */
+	if (navigator.geolocation) {
+		navigator.geolocation.watchPosition(
+			function(position) {
+					calculateETA(position.coords.latitude, position.coords.longitude);
+			},
+			function(err) {
+				console.error('ERROR(' + err.code + '): ' + err.message);
+			}, {
+				enableHighAccuracy: true,
+				timeout: 5000,
+				maximumAge: 0
+			}
+		);
+	}
 
 });
 
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			var lat = position.coords.latitude;
-			var lon = position.coords.longitude;
-			calculateDistances(lat, lon);
-		});
-}
 

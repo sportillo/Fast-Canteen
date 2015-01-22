@@ -2,9 +2,7 @@ var app	= require('express')();
 var https = require('https');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
 var _ = require('underscore');
-
 var Canteen = require('./models/canteen');
 var canteens = [];
 
@@ -14,10 +12,14 @@ app.use('/public', require('express').static(__dirname+'/public/'));
 
 io.on('connection', function(socket) {
 
+	io.emit('update.canteen', canteens['cammeo'].toJSON());
+	io.emit('update.canteen', canteens['martiri'].toJSON());
+	io.emit('update.canteen', canteens['betti'].toJSON());
+	io.emit('update.canteen', canteens['rosellini'].toJSON());
+
 	socket.on('update.seat', function(data) {
-		//console.log(data);
 		canteens[ data.canteen ] = canteens[ data.canteen ] || new Canteen(data.canteen);
-		canteens[ data.canteen ].updateSeatAt(data.id, data);
+		canteens[ data.canteen ].updateSeatAt(data.id, data.value);
 		io.emit('update.canteen', canteens[data.canteen].toJSON());
 	});
 
@@ -35,10 +37,10 @@ io.on('connection', function(socket) {
 
 	socket.on('update.ETA', function(data) {
 		console.log(data);
-		//var value = computeDistace(data.canteen, data.lon, data.lat);
 		canteens[ data.canteen ].updateETA(data.id, data.ETA);
-		//io.emit('update.canteen', canteens[ data.canteen ].toJSON());
+		io.emit('update.canteen', canteens[ data.canteen ].toJSON());
 	});
+
 });
 
 app.get('/', function(req, res){
@@ -47,39 +49,58 @@ app.get('/', function(req, res){
 
 http.listen(8080, '0.0.0.0');
 
-/*var url =  "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
-			43.72832382851462 + "," +
-			10.388503021991607 + "&destinations=" + 
-			43.723917 + "," +
-			10.391706  + "&mode=walinkg&language=en-EN&key=AIzaSyBNiXguGFrJYf7fvYCKn_JzeSvklwXxLrQ";
+/* FOR TESTING */
+canteens['cammeo'] = new Canteen('cammeo');
+canteens['martiri'] = new Canteen('martiri');
+canteens['betti'] = new Canteen('betti');
+canteens['rosellini'] = new Canteen('rosellini');
 
-https.get(url, function(res) {
-	res.on("data", function(chunk) {
-		json = JSON.parse(chunk);
-		value = json['rows'][0]['elements'][0]['duration']['value'];
-		canteens[ data.canteen ].updateETA(data.id, value);
-	});
-}).on('error', function(e) {
-	console.log("Got error: " + e.message);
-});*/
+for (var c in canteens)
+{
+	canteens[c].updateQueue(0, Math.round(Math.random() * 30)+10);
 
-/*
-function calculateDistances(canteen, lon, lat) {
-	var url =  "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
-					data.lon + "," +
-					data.lat + "&destinations=" + 
-					canteens[ canteen].location.lon + "," +
-					canteens[ canteen].location.lat  + "&mode=walinkg&language=en-EN&key=" + API_KEY;
+	for (var i = 0; i < 100; i++)
+		canteens[c].updateSeatAt(i, Math.round(Math.random()));
 
-	https.get(url, function(res) {
-		res.on("data", function(chunk) {
-			var json = JSON.parse(chunk);
-			var value = json['rows'][0]['elements'][0]['duration']['value'];
-		});
-	}).on('error', function(e) {
-		console.log("Got error: " + e.message);
-	});
-
-	return value;
+	var numPers = Math.round(Math.random() * 50);
+	for (var i = 0; i < numPers; i++)
+		canteens[c].ETA[i] = Math.round(Math.random() * 3600);
 }
-*/
+
+/* SIMULATE USERS AND SEAT UPDATE */
+setInterval( function() {
+	for(var c in canteens) {
+		var queueRemove = (Math.random() < 0.1);
+		var queueInsert = (Math.random() < 0.1);
+		var freeSeat = (Math.random() < 0.15);
+
+		if (queueRemove)
+		{
+			canteens[c].queue[0] -= 1;
+
+			var randomSeatId = Math.round(Math.random() * 99);
+			while (canteens[c].seats[randomSeatId].getValue() === 0)
+			{
+				randomSeatId = Math.round(Math.random() * 99);
+			}
+
+			canteens[c].updateSeatAt(randomSeatId, 0);
+		}
+
+		if (freeSeat) {
+
+			var randomSeatId = Math.round(Math.random() * 99);
+			while (canteens[c].seats[randomSeatId].getValue() === 1)
+			{
+				randomSeatId = Math.round(Math.random() * 99);
+			}
+
+			canteens[c].updateSeatAt(randomSeatId, 1);
+		}
+
+		if (queueInsert)
+			canteens[c].queue[0] += 1;
+
+		io.emit('update.canteen', canteens[ c ].toJSON());
+	}
+}, 1000);

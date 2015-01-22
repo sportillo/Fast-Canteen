@@ -1,11 +1,10 @@
 package it.unipi.iot;
 
 import java.io.StringReader;
-
+import java.util.ArrayList;
 
 import javax.json.Json;
 import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
@@ -21,9 +20,6 @@ import org.eclipse.californium.core.CoapHandler;
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.CoapServer;
-import org.eclipse.californium.core.coap.MediaTypeRegistry;
-import org.eclipse.californium.core.coap.Response;
-import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.network.config.NetworkConfig;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.proxy.DirectProxyCoAPResolver;
@@ -48,12 +44,12 @@ public class HttpServer {
 	
 	static Socket socket;
 	
+	static ArrayList<CoapNode> nodes;
+	
 	private static final int PORT = NetworkConfig.getStandard().getInt(NetworkConfig.Keys.COAP_PORT);
 
 	private CoapServer targetServerA;
 	
-	static public Canteen cammeo = new Canteen("Cammeo");
-	static public Canteen martiri = new Canteen("Martiri");
 	static CoapHandler handler = new CoapHandler() {
 		
 		@Override
@@ -79,21 +75,8 @@ public class HttpServer {
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-				} else if(type.equals("temperature")) {
-					float value = Float.parseFloat(measure.getString("v"));
-					JSONObject obj = new JSONObject();
-					try {
-						obj.put("canteen", canteen);
-						obj.put("type", type);
-						obj.put("id", nodeId);
-						obj.put("value", value);
-						socket.emit("update.temperature", obj);
-						System.out.println(response.getResponseText());
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
 				} else if (type.equals("queue")) {
-					int value = Integer.parseInt(measure.getString("bv"));
+					int value = Integer.parseInt(measure.getString("v"));
 					JSONObject obj = new JSONObject();
 					try {
 						obj.put("canteen", canteen);
@@ -107,13 +90,6 @@ public class HttpServer {
 					}
 				}
 				
-				/* Persistent Layer ??? */
-				//for(CoapNode node : cammeo.getNodes()) {
-				//	if(node.getId() == nodeId){
-				//		node.setValue(value);		
-				//	}
-				//}
-				
 			}
 		}
 		
@@ -125,7 +101,7 @@ public class HttpServer {
 	};
 	
 	private void initSocketIO() throws Exception{
-		socket = IO.socket("http://192.168.1.10:8080");
+		socket = IO.socket("http://131.114.236.163:8080");
 		socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 
 			  @Override
@@ -150,7 +126,7 @@ public class HttpServer {
 	}
 	
 	private void observeResources(){
-		for(CoapNode node : cammeo.getNodes()){
+		for(CoapNode node : nodes){
 			CoapClient resourceClient = new CoapClient(node.getAddress()+node.getResource().getPath());
 			resourceClient.observe(handler);
 		}
@@ -163,10 +139,10 @@ public class HttpServer {
 		
 	}
 	
-	private void collectNodes(){
+	private void collectNodes(String addr){
 	try {
 	    HttpClient client = new DefaultHttpClient();
-	    HttpGet request = new HttpGet("http://[aaaa::212:7401:1:101]");
+	    HttpGet request = new HttpGet(addr);
 	    HttpResponse response = client.execute(request);
 	    HttpEntity entity = response.getEntity();
 	    String content = EntityUtils.toString(entity);
@@ -184,9 +160,7 @@ public class HttpServer {
 			String rsp = resp.getResponseText();
 			CoapResource res = parseLinkFormat(rsp);
 			node.setResource(res);
-			//int nodeID = Integer.parseInt(rsp.substring(rsp.indexOf("id=\"")+4, rsp.indexOf("\";", rsp.indexOf("id=\""))));
-			//node.setId(nodeID);
-        	cammeo.addNode(node);
+        	nodes.add(node);
         }
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -197,6 +171,7 @@ public class HttpServer {
 	public HttpServer() throws Exception {
 		ForwardingResource coap2coap = new ProxyCoapClientResource("coap2coap");
 		ForwardingResource coap2http = new ProxyHttpClientResource("coap2http");
+		nodes = new ArrayList<CoapNode>();
 		
 		// Create CoAP Server on PORT with proxy resources form CoAP to CoAP and HTTP
 		targetServerA = new CoapServer(PORT);
@@ -208,11 +183,13 @@ public class HttpServer {
 		ProxyHttpServer httpServer = new ProxyHttpServer(8080);
 		httpServer.setProxyCoapResolver(new DirectProxyCoAPResolver(coap2coap));
 		
-		System.out.println("CoAP resource \"target\" available over HTTP at: http://localhost:8080/proxy/coap://localhost:PORT/target");
 		System.out.println("Socket.IO init...");
 		initSocketIO();
 		System.out.println("Discovering nodes...");
-		collectNodes();
+		collectNodes("http://[aaaa::212:7401:1:101]");
+		collectNodes("http://[bbbb::212:7402:2:202]");
+		collectNodes("http://[cccc::212:7403:3:303]");
+		collectNodes("http://[dddd::212:7404:4:404]");
 		System.out.println("Observing resources...");
 		observeResources();
 		System.out.println("Ready!");
@@ -230,26 +207,6 @@ public class HttpServer {
 		
 		@Override
 		public void handleGET(CoapExchange exchange) {
-			
-			System.out.println(exchange.getSourceAddress().getHostAddress().toString());
-			System.out.println(exchange.getSourcePort());
-		
-	        JsonArrayBuilder sensors = Json.createArrayBuilder();
-			for(CoapNode node : cammeo.getNodes()){
-
-	        	sensors.add(Json.createObjectBuilder()
-	        			.add("ID", node.getId())
-	        			.add("Value", node.getValue())
-	        			.build());
-	
-
-			}
-			JsonObject obj = Json.createObjectBuilder().add("Canteen", cammeo.getName()).add("Sensors", sensors).build();
-    		Response r = new Response(ResponseCode.CONTENT);
-    		r.setPayload(obj.toString());
-    		r.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
-    		exchange.respond(r);
-
 
 	}
 	}

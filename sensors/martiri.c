@@ -6,11 +6,12 @@
 #include <string.h>
 #include "random.h"
 
+#define NUM_SEATS 150
 //char title[100];
 
-PERIODIC_RESOURCE(GetStatus, METHOD_GET, "status", "title=\"Seat\";obs", 5*CLOCK_SECOND);
+PERIODIC_RESOURCE(GetStatus, METHOD_GET, "status", "title=\"Seat\";obs", 5 * CLOCK_SECOND);
 
-uint8_t status[30] = {0};
+uint8_t status[NUM_SEATS] = {0};
 uint16_t counter = 1;
 
 PROCESS(server, "Seat process");
@@ -18,11 +19,14 @@ AUTOSTART_PROCESSES(&server);
 
 void GetStatus_periodic_handler(resource_t *r)
 {
-  uint8_t id = abs(random_rand()) % 30;
-  random_rand();
-  status[id] = random_rand();
-  if(status[id] > 128) status[id] = 1;
-  else status[id] = 0;
+  uint32_t id = random_rand() % NUM_SEATS;
+  uint8_t newStatus = random_rand() % 256;
+  
+  if (newStatus > 128)
+    status[id] = 0;
+  else
+    status[id] = 1;
+  
   coap_packet_t notification[1];
   char content[256];
 
@@ -33,12 +37,13 @@ void GetStatus_periodic_handler(resource_t *r)
 	snprintf(
 		content, 
 		sizeof(content), 
-		"{\"bn\":\"martiri\",\"e\":[{\"n\":\"seat\",\"id\":\"%d\",\"bv\":\"%d\"}]}", 
+		"{\"bn\":\"martiri\",\"e\":[{\"n\":\"seat\",\"id\":\"%lu\",\"bv\":\"%u\"}]}", 
 		id, 
 		status[id])
   );
   
   printf("%s\n", content);
+  
   REST.set_header_content_type(notification, REST.type.APPLICATION_JSON);
   REST.notify_subscribers(r, counter, notification);
   counter++;
@@ -64,6 +69,8 @@ void GetStatus_handler(void *request, void *response, uint8_t *buffer, uint16_t 
 PROCESS_THREAD(server, ev, data)
 {
   PROCESS_BEGIN();
+  random_init(*(uint16_t*)(&rimeaddr_node_addr)*3);
+  
   rest_init_engine();
   rest_activate_periodic_resource(&periodic_resource_GetStatus);
 

@@ -24,9 +24,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky1</identifier>
       <description>Border_Router</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/border-router/border-router.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/border-router/border-router.c</source>
       <commands EXPORT="discard">make border-router.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/border-router/border-router.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/border-router/border-router.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
@@ -47,9 +47,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky2</identifier>
       <description>Cammeo</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/cammeo.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/sensors/cammeo.c</source>
       <commands EXPORT="discard">make cammeo.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/cammeo.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/sensors/cammeo.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
@@ -70,9 +70,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky3</identifier>
       <description>Queue_Cammeo</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/queue_cammeo.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/sensors/queue_cammeo.c</source>
       <commands EXPORT="discard">make queue_cammeo.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/queue_cammeo.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/sensors/queue_cammeo.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
@@ -93,9 +93,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky4</identifier>
       <description>Martiri</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/martiri.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/sensors/martiri.c</source>
       <commands EXPORT="discard">make martiri.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/martiri.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/sensors/martiri.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
@@ -116,9 +116,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky5</identifier>
       <description>Queue_Martiri</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/queue_martiri.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/sensors/queue_martiri.c</source>
       <commands EXPORT="discard">make queue_martiri.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/queue_martiri.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/sensors/queue_martiri.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
@@ -139,9 +139,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky6</identifier>
       <description>Betti</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/betti.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/sensors/betti.c</source>
       <commands EXPORT="discard">make betti.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/betti.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/sensors/betti.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
@@ -162,9 +162,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky7</identifier>
       <description>Queue_Betti</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/queue_betti.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/sensors/queue_betti.c</source>
       <commands EXPORT="discard">make queue_betti.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/queue_betti.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/sensors/queue_betti.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
@@ -185,9 +185,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky8</identifier>
       <description>Rosellini</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/rosellini.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/sensors/rosellini.c</source>
       <commands EXPORT="discard">make rosellini.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/rosellini.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/sensors/rosellini.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>
@@ -208,9 +208,9 @@
       se.sics.cooja.mspmote.SkyMoteType
       <identifier>sky9</identifier>
       <description>Queue_Rosellini</description>
-      <source EXPORT="discard">[CONTIKI_DIR]-2.7/canteen/sensors/queue_rosellini.c</source>
+      <source EXPORT="discard">[CONTIKI_DIR]-2.7/iot-project/sensors/queue_rosellini.c</source>
       <commands EXPORT="discard">make queue_rosellini.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/canteen/sensors/queue_rosellini.sky</firmware>
+      <firmware EXPORT="copy">[CONTIKI_DIR]-2.7/iot-project/sensors/queue_rosellini.sky</firmware>
       <moteinterface>se.sics.cooja.interfaces.Position</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>se.sics.cooja.interfaces.IPAddress</moteinterface>

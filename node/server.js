@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var _ = require('underscore');
 var Canteen = require('./models/canteen');
 var canteens = [];
+//var test = require('test');
 
 var API_KEY = "AIzaSyBNiXguGFrJYf7fvYCKn_JzeSvklwXxLrQ";
 
@@ -17,7 +18,9 @@ io.on('connection', function(socket) {
 	io.emit('update.canteen', canteens['betti'].toJSON());
 	io.emit('update.canteen', canteens['rosellini'].toJSON());
 
+
 	socket.on('update.seat', function(data) {
+		//console.log(data);
 		canteens[ data.canteen ] = canteens[ data.canteen ] || new Canteen(data.canteen);
 		canteens[ data.canteen ].updateSeatAt(data.id, data.value);
 		io.emit('update.canteen', canteens[data.canteen].toJSON());
@@ -36,7 +39,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('update.ETA', function(data) {
-		console.log(data);
+		//console.log(data);
 		canteens[ data.canteen ].updateETA(data.id, data.ETA);
 		io.emit('update.canteen', canteens[ data.canteen ].toJSON());
 	});
@@ -104,3 +107,4 @@ setInterval( function() {
 		io.emit('update.canteen', canteens[ c ].toJSON());
 	}
 }, 1000);
+

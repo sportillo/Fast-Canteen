@@ -4,9 +4,7 @@ import org.eclipse.californium.core.*;
 
 public class CoapNode {
 	String address;
-	int id;
 	CoapResource resource;
-	float value;
 	
 	public CoapNode(String address, CoapResource resource) {
 		this.address = address;
@@ -32,25 +30,4 @@ public class CoapNode {
 	public void setResource(CoapResource resource) {
 		this.resource = resource;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public float getValue() {
-		return value;
-	}
-
-	public void setValue(float value) {
-		this.value = value;
-	}
-	
-	
-	
-	
-	
 }

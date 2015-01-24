@@ -5,8 +5,8 @@
     <artifactId>root</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>HTTPserver</artifactId>
-  <name>httpserver</name>
+  <artifactId>ApplicationGateway</artifactId>
+  <name>applicationgateway</name>
   
 	<dependencies>
 		<dependency>
@@ -57,7 +57,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>it.unipi.iot.HttpClient</mainClass>
+							<mainClass>it.unipi.iot.ApplicationGateway</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
 					</archive>

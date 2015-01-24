@@ -39,7 +39,7 @@ import com.github.nkzawa.socketio.client.Socket;
  */
 
 
-public class HttpServer {
+public class ApplicationGateway {
 	
 	
 	static Socket socket;
@@ -101,7 +101,7 @@ public class HttpServer {
 	};
 	
 	private void initSocketIO() throws Exception{
-		socket = IO.socket("http://131.114.236.163:8080");
+		socket = IO.socket("http://192.168.1.2:8080");
 		socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 
 			  @Override
@@ -168,7 +168,7 @@ public class HttpServer {
 		}
 	}
 	
-	public HttpServer() throws Exception {
+	public ApplicationGateway() throws Exception {
 		ForwardingResource coap2coap = new ProxyCoapClientResource("coap2coap");
 		ForwardingResource coap2http = new ProxyHttpClientResource("coap2http");
 		nodes = new ArrayList<CoapNode>();
@@ -212,7 +212,7 @@ public class HttpServer {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new HttpServer();
+		new ApplicationGateway();
 	}
 
 }

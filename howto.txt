@@ -1,24 +1,17 @@
--2. Scaricare ed installare node.js
+-1. Scaricare ed installare node.js
 
--1. Rinominare la cartella "iot-project" in "canteen" (soluzione temporanea), oppure modificare le righe 27-29 del file simulation_combo.csc (sol. definitiva, non testata!)
+0. Includere ApplicationGateway nel workspace di californium
 
-0. Includere HTTPserver nel workspace di californium
-
-1.	Avviare Cooja -> File -> Open Simulation -> simulation_combo.csc
+1. Avviare Cooja -> File -> Open Simulation -> simulation_final.csc
 	(se hai dei problemi, potrebbe essere il fatto che io uso contiki-2.7, prova a rinominare la cartella)
 
-2.	Start simulation
+2. Start simulation
 
-3.	Terminale -> cd [progetto]/border-router -> make connect-router-cooja-cammeo
-						    make connect-router-cooja-martiri
-						    make connect-router-cooja-betti
-						    make connect-router-cooja-rosellini
+3. Terminale -> cd [progetto]/border-router -> sudo ./start.sh
 
 4. Avviare Eclipse e far partire l'HTTPserver (si chiama cosi ma è il proxy)
 
 --------------------------------------
-
-Se funziona tutto è un miracolo, altrimenti puoi evitare tutto questo e aprire il file [progetto]/node/public/js/script.js e decommentare 155-158 che non fanno altro che simulare (staticamente) delle mense.
 
 5. Terminale -> cd [progetto]/node/node server.js
 

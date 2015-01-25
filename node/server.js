@@ -65,6 +65,9 @@ for (var c in canteens)
 	for (var i = 0; i < 100; i++)
 		canteens[c].updateSeatAt(i, Math.round(Math.random()));
 
+	/* Reset for testing */
+	canteens[c].processedPeople = 1;
+
 	var numPers = Math.round(Math.random() * 50);
 	for (var i = 0; i < numPers; i++)
 		canteens[c].ETA[i] = Math.round(Math.random() * 3600);

@@ -125,9 +125,12 @@ body {
 	background: #712343;
 }
 
-
 [data-arrivals] {
 	background: #290439;
+}
+
+[data-avgtime] {
+	background: #459823;
 }
 
 [data-timetoeat] {

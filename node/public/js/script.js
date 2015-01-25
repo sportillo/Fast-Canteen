@@ -114,6 +114,9 @@ socket.on('update.canteen', function(canteen_json) {
 
 		Canteens.get(canteen_json.name).getMasterView().find('[data-arrivals]').text(calculateArrivals(canteen_json.name));
 		Canteens.get(canteen_json.name).getMasterView().find('[data-timetoeat]').text(calculateTTE(canteen_json.name));
+		Canteens.get(canteen_json.name).getMasterView().find('[data-avgtime]').text(
+				Canteens.get(canteen_json.name).get('wait_time') + "\nsecs"
+			);
 	} else {
 		Canteens.add(new Canteen(canteen_json));
 	}
@@ -139,9 +142,10 @@ function calculateArrivals(canteen) {
 function calculateTTE(canteen) {
 	var arrivals = ~~Canteens.get(canteen).getMasterView().find('[data-arrivals]').text();
 	var queue = ~~Canteens.get(canteen).getMasterView().find('[data-queue]').text();
+	var avg = parseFloat(Canteens.get(canteen).get('wait_time'));
 	var eta = ETA[canteen];
 
-	return Math.round(((arrivals + queue)*15 + eta)/60) + "\nmins";
+	return Math.round(((arrivals + queue) * avg + eta)/60) + "\nmins";
 }
 
 

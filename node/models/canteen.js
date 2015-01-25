@@ -29,6 +29,9 @@ function Canteen(name) {
 	this.seats = {};
 	this.queue = {};
 	this.temperature = null;
+	this.startTime = (new Date()).getTime();
+	this.processedPeople = 1; /* avoid infinity, not relevant after a while */
+	this.waitTime = 0;
 	this.location = locations[name];
 	this.ETA = {};
 }
@@ -63,6 +66,11 @@ Canteen.prototype.getTemperature = function() {
 
 Canteen.prototype.updateSeatAt = function(id, value) {
 	this.seats[id] = new Seat(id, value);
+	
+	if (value == 0) this.processedPeople++;
+
+	var elapsed = (~~((new Date()).getTime()) - ~~this.startTime) / 1000;
+	this.waitTime = ~~(elapsed / this.processedPeople);
 };
 
 Canteen.prototype.getSeats = function() {
@@ -102,7 +110,8 @@ Canteen.prototype.toJSON = function() {
 		percentage_seats: this.getPercentageSeats(),
 		queue: this.getQueue(),
 		location: this.location,
-		ETA: this.ETA
+		ETA: this.ETA,
+		wait_time: this.waitTime
 	};
 };
 

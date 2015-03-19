@@ -1,4 +1,4 @@
-# WAWWIE #
+# Fast Canteen #
 
 The aim of this project is to develop a system able to show the current occupancy status and expected wait time of a public canteen for college students.
 
